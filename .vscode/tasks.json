@@ -1,0 +1,32 @@
+{
+    "tasks": [
+      {
+        "type": "cppbuild",
+        "label": "C/C++: g++.exe build active file",
+        "command": "make",
+        "args": [],
+        "options": {
+          "cwd": "${workspaceFolder}"
+        },
+        "problemMatcher": ["$gcc"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "detail": "compiler: D:/MSYS64/mingw64/bin/g++.exe"
+      },
+      {
+        "type": "shell",
+        "label": "C/C++: g++.exe run",
+        "command": "D:/MSYS64/mingw64/bin/g++.exe -o ${fileBasenameNoExtension}.exe ${fileBasenameNoExtension}.cpp; if ($LASTEXITCODE -eq 0) {${fileDirname}/${fileBasenameNoExtension}.exe}",
+        "problemMatcher": ["$gcc"],
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": true
+        },
+        "detail": "compiler: D:/MSYS64/mingw64/bin/g++.exe"
+      }
+    ],
+    "version": "2.0.0"
+  }
