@@ -54,7 +54,7 @@ string* split(const string str, const char separator) {
         end++;
     while (end < str.length()) {
         if (end != start) {
-            if (end == str.length() - 1 && str[end] != '\0' && str[end] != separator) { //костыль
+            if (end == str.length() - 1 && str[end] != '\0' && str[end] != separator) { //РєРѕСЃС‚С‹Р»СЊ
                 end++;
             }
             push_back(tokens, n, str.substr(start, end - start));
@@ -135,7 +135,7 @@ bool check_fio(const string fio) {
     string tfio = ltrim(rtrim(fio));
     bool ans = true;
     string* separated_fio = nullptr;
-    string wrongl = "1234567890,?!@#$%^&*()_+=№;:=\"\'~`/\\";
+    string wrongl = "1234567890,?!@#$%^&*()_+=в„–;:=\"\'~`/\\";
     
     if (tfio.find(' ') == string::npos) {
         ans = false;
@@ -146,35 +146,35 @@ bool check_fio(const string fio) {
     else {
         separated_fio = split(tfio);
         int i = 0;
-        while (strcmp(separated_fio[i].c_str(), "\0") != 0) { // количество блоков данных
+        while (strcmp(separated_fio[i].c_str(), "\0") != 0) { // РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р»РѕРєРѕРІ РґР°РЅРЅС‹С…
             i++;
         }
         if (i > 3 || i < 2) {
             ans = false;
         }
-        else if (i == 3) { // Фамилия_И._О.
+        else if (i == 3) { // Р¤Р°РјРёР»РёСЏ_Р._Рћ.
             string::size_type first_dot1 = separated_fio[1].find('.'); 
             string::size_type first_dot2 = separated_fio[2].find('.');
             if (first_dot1 == string::npos || first_dot2 == string::npos) {
                 ans = false;
             }
             else if (first_dot1 != separated_fio[1].rfind('.') ||
-                     first_dot2 != separated_fio[2].rfind('.')) { // если слишком много точек в имени или отчестве
+                     first_dot2 != separated_fio[2].rfind('.')) { // РµСЃР»Рё СЃР»РёС€РєРѕРј РјРЅРѕРіРѕ С‚РѕС‡РµРє РІ РёРјРµРЅРё РёР»Рё РѕС‚С‡РµСЃС‚РІРµ
                 ans = false;
             }
             else if (separated_fio[1].length() < 2 || 
                      separated_fio[1].length() > 3 ||
                      separated_fio[2].length() < 2 ||
-                     separated_fio[2].length() > 3) { // если инициалы слишком коротки или длинны
+                     separated_fio[2].length() > 3) { // РµСЃР»Рё РёРЅРёС†РёР°Р»С‹ СЃР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРё РёР»Рё РґР»РёРЅРЅС‹
                 ans = false;
             }
             else if (first_dot1 + 1 != separated_fio[1].length() ||
-                     first_dot2 + 1 != separated_fio[2].length()) { // если точки в инициалах не в их концах
+                     first_dot2 + 1 != separated_fio[2].length()) { // РµСЃР»Рё С‚РѕС‡РєРё РІ РёРЅРёС†РёР°Р»Р°С… РЅРµ РІ РёС… РєРѕРЅС†Р°С…
                 ans = false;
             }
             else if (!is_letter_upper(separated_fio[0][0]) ||
                      !is_letter_upper(separated_fio[1][0]) ||
-                     !is_letter_upper(separated_fio[2][0])) { // регистр
+                     !is_letter_upper(separated_fio[2][0])) { // СЂРµРіРёСЃС‚СЂ
                 ans = false;
             }
             else {
@@ -182,10 +182,10 @@ bool check_fio(const string fio) {
             }
         
         }
-        else if (i == 2) { // Фамилия_И.
+        else if (i == 2) { // Р¤Р°РјРёР»РёСЏ_Р.
             string::size_type start = 0;
             int dots = 0;
-            while (separated_fio[1].find('.', start) != string::npos) { //подсчёт точек
+            while (separated_fio[1].find('.', start) != string::npos) { //РїРѕРґСЃС‡С‘С‚ С‚РѕС‡РµРє
                 start = separated_fio[1].find('.', start) + 1;
                 dots++; 
             }
@@ -194,11 +194,11 @@ bool check_fio(const string fio) {
             }
             else {
                 if (separated_fio[1].length() < (string::size_type)(2) ||
-                    separated_fio[1].length() > (string::size_type)(3)) { // если инициалы слишком коротки или длинны
+                    separated_fio[1].length() > (string::size_type)(3)) { // РµСЃР»Рё РёРЅРёС†РёР°Р»С‹ СЃР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРё РёР»Рё РґР»РёРЅРЅС‹
                     ans = false;
                 }
                 else if (separated_fio[1].find('.') == 0 || 
-                         separated_fio[1].rfind('.') != separated_fio[1].length() - 1) { // если точка в начале или не в конце
+                         separated_fio[1].rfind('.') != separated_fio[1].length() - 1) { // РµСЃР»Рё С‚РѕС‡РєР° РІ РЅР°С‡Р°Р»Рµ РёР»Рё РЅРµ РІ РєРѕРЅС†Рµ
                     ans = false;
                 }
                 else {
@@ -224,16 +224,16 @@ bool check_fio(const string fio) {
 }
 
 bool is_letter_upper(const char ch) {
-    int first_up = (int)'А';
-    int first_down = (int)'а';
-    int last_down = (int)'я';
-    int yo_down = (int)'ё';
+    int first_up = (int)'Рђ';
+    int first_down = (int)'Р°';
+    int last_down = (int)'СЏ';
+    int yo_down = (int)'С‘';
     if ((int)ch < 0 &&
             (((int)ch >= first_down && (int)ch <= last_down) ||
-            (int)ch == yo_down)) { // если расширенный символ - строчная буква или не буква
+            (int)ch == yo_down)) { // РµСЃР»Рё СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ СЃРёРјРІРѕР» - СЃС‚СЂРѕС‡РЅР°СЏ Р±СѓРєРІР° РёР»Рё РЅРµ Р±СѓРєРІР°
         return false;
     }
-    else if ((int)ch > 0 && (islower(ch) || !isalpha(ch))) { // если ASCII - строчная буква или не буква
+    else if ((int)ch > 0 && (islower(ch) || !isalpha(ch))) { // РµСЃР»Рё ASCII - СЃС‚СЂРѕС‡РЅР°СЏ Р±СѓРєРІР° РёР»Рё РЅРµ Р±СѓРєРІР°
         return false;
     }
     return true;
@@ -243,7 +243,7 @@ bool check_post(const string post) {
     string pst = ltrim(rtrim(post));
     bool ans = true;
     string* separated_post = nullptr;
-    if (pst.find_first_of(",?!@#$%^&*()_+=№;:=\"\'~`/\\") != string::npos) {
+    if (pst.find_first_of(",?!@#$%^&*()_+=в„–;:=\"\'~`/\\") != string::npos) {
         ans = false;
     }
     return ans;
@@ -267,11 +267,11 @@ void format_fio(string& fio) {
     }
     string::size_type start = 0;
     int dots = 0;
-    while (temp_fio.find('.', start) != string::npos) { //подсчёт точек
+    while (temp_fio.find('.', start) != string::npos) { //РїРѕРґСЃС‡С‘С‚ С‚РѕС‡РµРє
         start = temp_fio.find('.', start) + 1;
         dots++;
     }
-    if (i == 3 && dots == 2) { // Фамилия_И._О.
+    if (i == 3 && dots == 2) { // Р¤Р°РјРёР»РёСЏ_Р._Рћ.
         downcase_word(separated_fio[0]);
         downcase_word(separated_fio[1]);
         downcase_word(separated_fio[2]);
@@ -286,8 +286,8 @@ void format_fio(string& fio) {
             fio = (separated_fio[0] + ' ' + separated_fio[1] + ' ' + separated_fio[2]);
         }
     }
-    else if (i == 2 && dots == 2) { // Фамилия_И.О.
-        separated_io = split(separated_fio[1], '.'); // разделённые инициалы БЕЗ точек
+    else if (i == 2 && dots == 2) { // Р¤Р°РјРёР»РёСЏ_Р.Рћ.
+        separated_io = split(separated_fio[1], '.'); // СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ РёРЅРёС†РёР°Р»С‹ Р‘Р•Р— С‚РѕС‡РµРє
         fio.erase();
         downcase_word(separated_fio[0]);
         downcase_word(separated_io[0]);
@@ -303,7 +303,7 @@ void format_fio(string& fio) {
             fio = (separated_fio[0] + ' ' + separated_io[0] + ". " + separated_io[1] + ".");
         }
     }
-    else if (i == 2 && dots == 1) { // Фамилия_И.
+    else if (i == 2 && dots == 1) { // Р¤Р°РјРёР»РёСЏ_Р.
         downcase_word(separated_fio[0]);
         downcase_word(separated_fio[1]);
         uppercase_first(separated_fio[0]);
@@ -392,11 +392,11 @@ int get_fields(string& fio, string& post, int& admy, gf_flag flag) {
     int year = 0;
     bool subInserting = true;
     if (flag == gf_flag::SearchAdd) {
-        addition = " (уточнение)";
+        addition = " (СѓС‚РѕС‡РЅРµРЅРёРµ)";
         temp_fio = fio;
     }
     else if (flag == gf_flag::Editing) {
-        addition = " (редактирование)";
+        addition = " (СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ)";
     }
     else {
         addition = "";
@@ -404,14 +404,14 @@ int get_fields(string& fio, string& post, int& admy, gf_flag flag) {
     cin.clear();
     cin.ignore(cin.rdbuf()->in_avail(), '\n');
     if (flag != gf_flag::SearchAdd) {
-        cout << "Введите фамилию и инициалы сотрудника" << addition << ':' << endl;
+        cout << "Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ Рё РёРЅРёС†РёР°Р»С‹ СЃРѕС‚СЂСѓРґРЅРёРєР°" << addition << ':' << endl;
         getline(cin, temp_fio);
         if (temp_fio == "/back" && flag == gf_flag::Nothing) {
             return 2;
         }
         format_fio(temp_fio);
         while (!check_fio(temp_fio)) {
-            cout << "Фамилия и инициалы введены неверно. Попробуйте заново:" << endl;
+            cout << "Р¤Р°РјРёР»РёСЏ Рё РёРЅРёС†РёР°Р»С‹ РІРІРµРґРµРЅС‹ РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ:" << endl;
             getline(cin, temp_fio);
             if (temp_fio == "/back" && flag == gf_flag::Nothing) {
                 return 2;
@@ -419,23 +419,23 @@ int get_fields(string& fio, string& post, int& admy, gf_flag flag) {
             format_fio(temp_fio);
         }
     }
-    cout << "Введите должность сотрудника " << addition << ':' << endl;
+    cout << "Р’РІРµРґРёС‚Рµ РґРѕР»Р¶РЅРѕСЃС‚СЊ СЃРѕС‚СЂСѓРґРЅРёРєР° " << addition << ':' << endl;
     getline(cin, temp_post);
     format_post(temp_post);
     while (!check_post(temp_post)) {
-        cout << "Должность введена неверно. Попробуйте заново:" << endl;
+        cout << "Р”РѕР»Р¶РЅРѕСЃС‚СЊ РІРІРµРґРµРЅР° РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ:" << endl;
         getline(cin, temp_post);
         format_post(temp_post);
     }
-    cout << "Введите год трудоустройства сотрудника " << addition << ':' << endl;
+    cout << "Р’РІРµРґРёС‚Рµ РіРѕРґ С‚СЂСѓРґРѕСѓСЃС‚СЂРѕР№СЃС‚РІР° СЃРѕС‚СЂСѓРґРЅРёРєР° " << addition << ':' << endl;
     while (subInserting) {
         getline(cin, temp_year);
         if (to_number(temp_year, year)) {
-            cout << "Год должен быть числом. Попробуйте заново." << endl;
+            cout << "Р“РѕРґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         else if (!check_year(year)) {
-            cout << "Год должен быть настоящим. Попробуйте заново." << endl;
+            cout << "Р“РѕРґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅР°СЃС‚РѕСЏС‰РёРј. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         else {
@@ -476,9 +476,9 @@ bool file_valid(const string path) {
 }
 
 void downcase_word(string& word) {
-    int first_up = (int)'А';
-    int last_up = (int)'Я';
-    int yo_up = (int)'Ё';
+    int first_up = (int)'Рђ';
+    int last_up = (int)'РЇ';
+    int yo_up = (int)'РЃ';
     for (size_t i = 0; i < word.size(); i++) {
         if (is_letter_upper(word[i])) {
             if (word[i] > 0) {
@@ -489,7 +489,7 @@ void downcase_word(string& word) {
                     word[i] = (char)((int)word[i] + 32);
                 }
                 else if ((int)word[0] == yo_up) {
-                    word[i] = 'ё';
+                    word[i] = 'С‘';
                 }
                 else {
                     continue;
@@ -500,10 +500,10 @@ void downcase_word(string& word) {
 }
 
 void uppercase_first(string& word) {
-    int first_up = (int)'А';
-    int first_down = (int)'а';
-    int last_down = (int)'я';
-    int yo_down = (int)'ё';
+    int first_up = (int)'Рђ';
+    int first_down = (int)'Р°';
+    int last_down = (int)'СЏ';
+    int yo_down = (int)'С‘';
     if (word[0] > 0) {
         word[0] = toupper(word[0]);
     }
@@ -512,9 +512,9 @@ void uppercase_first(string& word) {
             word[0] = (char)((int)word[0] - 32);
         }
         else if ((int)word[0] == yo_down) {
-            word[0] = 'Ё';
+            word[0] = 'РЃ';
         }
-        else { //слово уже с большой буквы
+        else { //СЃР»РѕРІРѕ СѓР¶Рµ СЃ Р±РѕР»СЊС€РѕР№ Р±СѓРєРІС‹
             return;
         }
     }
@@ -522,16 +522,16 @@ void uppercase_first(string& word) {
 
 char uppercase_char(const char ch) {
     char retch = ch;
-    int first_up = (int)'А';
-    int first_down = (int)'а';
-    int last_down = (int)'я';
-    int yo_down = (int)'ё';
+    int first_up = (int)'Рђ';
+    int first_down = (int)'Р°';
+    int last_down = (int)'СЏ';
+    int yo_down = (int)'С‘';
     if ((int)ch < 0) {
         if ((int)ch >= first_down && (int)ch <= last_down) {
             retch = (char)((int)ch - 32);
         }
         else if ((int)ch == yo_down) {
-            retch = 'Ё';
+            retch = 'РЃ';
         }
     }
     else {

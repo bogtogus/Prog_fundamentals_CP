@@ -6,15 +6,12 @@
 
 using namespace std;
 /*
-Var.5, >1800l
-ÀÓÍ‡Î¸Ì‡ˇ ‰ËÂÍÚÓËˇ Ì‡Ô‡‚ÎˇÂÚ Í main.cpp
-C:/Users/BOGDAN/projects/GUAP_OP_curs_VS/src/datas/data.txt
-C:/Users/BOGDAN/projects/GUAP_OP_curs_VS/src/datas/bigdata.txt
-C:/Users/polzovatel/Desktop/LRs/GUAP_OP_curs_VS/src/datas/data.txt 
+>1800l
+–õ–æ–∫–∞–ª—å–Ω–∞—è –¥–∏—Ä–µ–∫—Ç–æ—Ä–∏—è –Ω–∞–ø—Ä–∞–≤–ª—è–µ—Ç –∫ main.cpp
 */
 
 int main() {
-    setlocale(LC_ALL, "1251");
+    setlocale(LC_ALL, "Russian");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     WORKER* workers_list = nullptr;

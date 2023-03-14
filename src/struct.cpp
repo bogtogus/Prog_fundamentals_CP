@@ -123,19 +123,19 @@ void pop_from(WORKER*& head, const int index) {
 
 void show_list(WORKER* const head) {
     WORKER* current = head;
-    int iw = 3; //ширина позиции
-    int nw = 25; //ширина имени
-    int pw = 25; //ширина должности
-    int dw = 10; //ширина года
+    int iw = 3; //С€РёСЂРёРЅР° РїРѕР·РёС†РёРё
+    int nw = 25; //С€РёСЂРёРЅР° РёРјРµРЅРё
+    int pw = 25; //С€РёСЂРёРЅР° РґРѕР»Р¶РЅРѕСЃС‚Рё
+    int dw = 10; //С€РёСЂРёРЅР° РіРѕРґР°
     int position = 1;
     if (head == nullptr) {
         return;
     }
     else {
-        cout << setw(iw)  << "№"         << setw(1) << "|";
-        cout << setw(nw) << "ФИО"        << setw(1) << "|";
-        cout << setw(pw) << "Должность"  << setw(1) << "|";
-        cout << setw(dw) << "Трудоустр." << setw(1) << "|" << endl;
+        cout << setw(iw)  << "в„–"         << setw(1) << "|";
+        cout << setw(nw) << "Р¤РРћ"        << setw(1) << "|";
+        cout << setw(pw) << "Р”РѕР»Р¶РЅРѕСЃС‚СЊ"  << setw(1) << "|";
+        cout << setw(dw) << "РўСЂСѓРґРѕСѓСЃС‚СЂ." << setw(1) << "|" << endl;
         cout << "---+-------------------------+-------------------------+----------+" << endl;
         while (current != nullptr) {
             cout << setw(iw)  << position                   << setw(1) << "|";

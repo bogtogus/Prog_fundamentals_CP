@@ -10,9 +10,9 @@ void menu(WORKER*& workers_list) {
     int num_command = 0;
     int index = 0;
     int flag = 0;
-    cout << "Меню приложения для работы со списком сотрудников.\nДля списка команд введите /help." << endl << endl;
+    cout << "РњРµРЅСЋ РїСЂРёР»РѕР¶РµРЅРёСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃРїРёСЃРєРѕРј СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ.\nР”Р»СЏ СЃРїРёСЃРєР° РєРѕРјР°РЅРґ РІРІРµРґРёС‚Рµ /help." << endl << endl;
     while (MenuIsOpen) {
-        cout << "Введите команду:" << endl;
+        cout << "Р’РІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ:" << endl;
         getline(cin, text_command);
         Inserting = true;
         switch (command(text_command)) {
@@ -50,7 +50,7 @@ void menu(WORKER*& workers_list) {
             MenuIsOpen = false;
             break;
         default:
-            cout << "Команда не распознана." << endl;
+            cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°." << endl;
             break;
         }
         text_command.erase();
@@ -58,7 +58,7 @@ void menu(WORKER*& workers_list) {
     if (used_files != nullptr) {
         delete[] used_files;
     }
-    cout << "Выход." << endl;
+    cout << "Р’С‹С…РѕРґ." << endl;
 }
 
 void menu_add(WORKER*& workers_list) {
@@ -69,23 +69,23 @@ void menu_add(WORKER*& workers_list) {
     int temp_year = 0;
     int position = 0;
     int flag = 0;
-    cout << " • Добавление. ";
+    cout << " вЂў Р”РѕР±Р°РІР»РµРЅРёРµ. ";
     while (Inserting) {
-        cout << "Введите номер позиции (-1 для вставки в конец списка): " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїРѕР·РёС†РёРё (-1 РґР»СЏ РІСЃС‚Р°РІРєРё РІ РєРѕРЅРµС† СЃРїРёСЃРєР°): " << endl;
         getline(cin, text_command);
-        if (to_number(text_command, position) == 0) { // если введено число
+        if (to_number(text_command, position) == 0) { // РµСЃР»Рё РІРІРµРґРµРЅРѕ С‡РёСЃР»Рѕ
             if (position < 1 && position != -1) {
-                cout << "Неверный номер позиции. Попробуйте заново." << endl;
+                cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РїРѕР·РёС†РёРё. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 continue;
             }
         }
-        else { // если не число
+        else { // РµСЃР»Рё РЅРµ С‡РёСЃР»Рѕ
             if (text_command == "/back") {
-                cout << endl << "Возвращение в меню. " << endl;
+                cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
                 break;
             }
             else {
-                cout << "Ошибка ввода. Попробуйте заново." << endl;
+                cout << "РћС€РёР±РєР° РІРІРѕРґР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 cin.clear();
                 cin.ignore(cin.rdbuf()->in_avail(), '\n');
                 continue;
@@ -93,13 +93,13 @@ void menu_add(WORKER*& workers_list) {
         }
         flag = get_fields(temp_fio, temp_post, temp_year);
         if (!flag && is_exist(workers_list, temp_fio, temp_post, temp_year)) {
-            cout << "Сотрудник уже существует. Попробуйте ввести другого." << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚. РџРѕРїСЂРѕР±СѓР№С‚Рµ РІРІРµСЃС‚Рё РґСЂСѓРіРѕРіРѕ." << endl;
             temp_fio.erase();
             temp_post.erase();
             continue;
         }
         else if (flag == 2) {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         if (position == -1) {
@@ -108,7 +108,7 @@ void menu_add(WORKER*& workers_list) {
         else {
             push_into(workers_list, position - 1, temp_fio, temp_post, temp_year);
         }
-        cout << "Сотрудник добавлен." << endl;
+        cout << "РЎРѕС‚СЂСѓРґРЅРёРє РґРѕР±Р°РІР»РµРЅ." << endl;
         if (_AUTO_OUTPUT) {
             show_list(workers_list);
         }
@@ -120,7 +120,7 @@ void menu_add(WORKER*& workers_list) {
 
 void menu_delete(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Удаление работников невозможно. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. РЈРґР°Р»РµРЅРёРµ СЂР°Р±РѕС‚РЅРёРєРѕРІ РЅРµРІРѕР·РјРѕР¶РЅРѕ. " << endl;
         return;
     }
     bool Inserting = true;
@@ -130,40 +130,40 @@ void menu_delete(WORKER*& workers_list) {
     int temp_year;
     int position = 0;
     int flag = 0;
-    cout << " • Удаление. ";
+    cout << " вЂў РЈРґР°Р»РµРЅРёРµ. ";
     while (Inserting) {
-        cout << "Введите фамилию и инициалы удаляемого сотрудника: " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ Рё РёРЅРёС†РёР°Р»С‹ СѓРґР°Р»СЏРµРјРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°: " << endl;
         getline(cin, temp_fio);
         if (temp_fio == "/back") {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         format_fio(temp_fio);
         while (!check_fio(temp_fio)) {
-            cout << "Фамилия и инициалы введены неверно. Попробуйте заново:" << endl;
+            cout << "Р¤Р°РјРёР»РёСЏ Рё РёРЅРёС†РёР°Р»С‹ РІРІРµРґРµРЅС‹ РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ:" << endl;
             continue;
         }
         flag = find_in_list(workers_list, temp_fio, found, position);
         if (flag == 1) {
-            cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+            cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
             temp_fio.erase();
             temp_post.erase();
             continue;
         }
         else if (flag == 2) {
-            cout << "Сотрудник с такой фамилией и инициалами не единственный.";
-            cout << "Введите данные для уточнения ниже:" << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє СЃ С‚Р°РєРѕР№ С„Р°РјРёР»РёРµР№ Рё РёРЅРёС†РёР°Р»Р°РјРё РЅРµ РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№.";
+            cout << "Р’РІРµРґРёС‚Рµ РґР°РЅРЅС‹Рµ РґР»СЏ СѓС‚РѕС‡РЅРµРЅРёСЏ РЅРёР¶Рµ:" << endl;
             get_fields(temp_fio, temp_post, temp_year, gf_flag::SearchAdd);
             flag = find_in_list(workers_list, temp_fio, temp_post, temp_year, found, position);
             if (flag == 1) {
-                cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+                cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
                 temp_fio.erase();
                 temp_post.erase();
                 continue;
             }
         }
         pop_from(workers_list, position);
-        cout << "Сотрудник удалён." << endl;
+        cout << "РЎРѕС‚СЂСѓРґРЅРёРє СѓРґР°Р»С‘РЅ." << endl;
         if (_AUTO_OUTPUT) {
             show_list(workers_list);
         }
@@ -173,7 +173,7 @@ void menu_delete(WORKER*& workers_list) {
 
 void menu_edit(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Редактирование работников невозможно. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЂР°Р±РѕС‚РЅРёРєРѕРІ РЅРµРІРѕР·РјРѕР¶РЅРѕ. " << endl;
         return;
     }
     bool Inserting = true;
@@ -183,39 +183,39 @@ void menu_edit(WORKER*& workers_list) {
     int temp_year;
     int flag = 0;
     int position = 0;
-    cout << " • Редактирование. ";
+    cout << " вЂў Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ. ";
     while (Inserting) {
-        cout << "Введите Фамилию и инициалы редактируемого сотрудника: " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ Р¤Р°РјРёР»РёСЋ Рё РёРЅРёС†РёР°Р»С‹ СЂРµРґР°РєС‚РёСЂСѓРµРјРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°: " << endl;
         getline(cin, temp_fio);
         if (temp_fio == "/back") {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         format_fio(temp_fio);
         if (!check_fio(temp_fio)) {
-            cout << "Фамилия и инициалы введены неверно. Попробуйте заново:" << endl;
+            cout << "Р¤Р°РјРёР»РёСЏ Рё РёРЅРёС†РёР°Р»С‹ РІРІРµРґРµРЅС‹ РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ:" << endl;
             continue;
         }
         flag = find_in_list(workers_list, temp_fio, found, position);
         if (flag == 1) {
-            cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+            cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
             temp_fio.erase();
             temp_post.erase();
             continue;
         }
         else if (flag == 2) {
-            cout << "Сотрудник с такой фамилией и инициалами не единственный.";
-            cout << "Введите данные для уточнения ниже:" << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє СЃ С‚Р°РєРѕР№ С„Р°РјРёР»РёРµР№ Рё РёРЅРёС†РёР°Р»Р°РјРё РЅРµ РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№.";
+            cout << "Р’РІРµРґРёС‚Рµ РґР°РЅРЅС‹Рµ РґР»СЏ СѓС‚РѕС‡РЅРµРЅРёСЏ РЅРёР¶Рµ:" << endl;
             get_fields(temp_fio, temp_post, temp_year, gf_flag::SearchAdd);
             flag = find_in_list(workers_list, temp_fio, temp_post, temp_year, found, position);
             if (flag == 1) {
-                cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+                cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
                 temp_fio.erase();
                 temp_post.erase();
                 continue;
             }
         }
-        cout << "Сотрудник найден. Введите новые данные:" << endl;
+        cout << "РЎРѕС‚СЂСѓРґРЅРёРє РЅР°Р№РґРµРЅ. Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ:" << endl;
         temp_fio.erase();
         temp_post.erase();
         get_fields(temp_fio, temp_post, temp_year, gf_flag::Editing);
@@ -223,21 +223,21 @@ void menu_edit(WORKER*& workers_list) {
             found->fio = temp_fio;
             found->post = temp_post;
             found->admission_year = temp_year;
-            cout << "Сотрудник отредактирован." << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅ." << endl;
             if (_AUTO_OUTPUT) {
                 show_list(workers_list);
             }
         }
         else if (flag == 2) {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         else if (found->fio == temp_fio && found->post == temp_post && found->admission_year == temp_year) {
-            cout << " [X] Введённые новые данные сотрудника идентичны предыдущим. " << endl;
+            cout << " [X] Р’РІРµРґС‘РЅРЅС‹Рµ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєР° РёРґРµРЅС‚РёС‡РЅС‹ РїСЂРµРґС‹РґСѓС‰РёРј. " << endl;
         }
         else {
-            cout << " |\\/| Введённые новые данные сотрудника не уникальны. " << endl;
-            cout << " |/\\| Редактирование не выполнено. " << endl << endl;
+            cout << " |\\/| Р’РІРµРґС‘РЅРЅС‹Рµ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєР° РЅРµ СѓРЅРёРєР°Р»СЊРЅС‹. " << endl;
+            cout << " |/\\| Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РЅРµ РІС‹РїРѕР»РЅРµРЅРѕ. " << endl << endl;
         }
         break;
     }
@@ -247,7 +247,7 @@ void menu_edit(WORKER*& workers_list) {
 
 void menu_find(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Поиск работников невозможен. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. РџРѕРёСЃРє СЂР°Р±РѕС‚РЅРёРєРѕРІ РЅРµРІРѕР·РјРѕР¶РµРЅ. " << endl;
         return;
     }
     bool Inserting = true;
@@ -260,54 +260,54 @@ void menu_find(WORKER*& workers_list) {
     int temp_year;
     int flag = 0;
     int index = 0;
-    cout << " • Поиск сотрудника. ";
+    cout << " вЂў РџРѕРёСЃРє СЃРѕС‚СЂСѓРґРЅРёРєР°. ";
     while (Inserting) {
-        cout << "Введите Фамилию и инициалы искомого сотрудника: " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ Р¤Р°РјРёР»РёСЋ Рё РёРЅРёС†РёР°Р»С‹ РёСЃРєРѕРјРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°: " << endl;
         getline(cin, temp_fio);
         if (temp_fio == "/back") {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         format_fio(temp_fio);
         if (!check_fio(temp_fio)) {
-            cout << "Фамилия и инициалы введены неверно. Попробуйте заново:" << endl;
+            cout << "Р¤Р°РјРёР»РёСЏ Рё РёРЅРёС†РёР°Р»С‹ РІРІРµРґРµРЅС‹ РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ:" << endl;
             continue;
         }
         flag = find_in_list(workers_list, temp_fio, found, index);
         if (flag == 1) {
-            cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+            cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
             temp_fio.erase();
             temp_post.erase();
             continue;
         }
         else if (flag == 2) {
-            cout << "Сотрудник с такой фамилией и инициалами не единственный.";
-            cout << "Введите данные для уточнения ниже:" << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє СЃ С‚Р°РєРѕР№ С„Р°РјРёР»РёРµР№ Рё РёРЅРёС†РёР°Р»Р°РјРё РЅРµ РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№.";
+            cout << "Р’РІРµРґРёС‚Рµ РґР°РЅРЅС‹Рµ РґР»СЏ СѓС‚РѕС‡РЅРµРЅРёСЏ РЅРёР¶Рµ:" << endl;
             get_fields(temp_fio, temp_post, temp_year, gf_flag::SearchAdd);
             flag = find_in_list(workers_list, temp_fio, temp_post, temp_year, found, index);
             if (flag == 1) {
-                cout << " [X] Сотрудник не найден. Попробуйте заново или введите команду /back." << endl;
+                cout << " [X] РЎРѕС‚СЂСѓРґРЅРёРє РЅРµ РЅР°Р№РґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ РёР»Рё РІРІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ /back." << endl;
                 temp_fio.erase();
                 temp_post.erase();
                 continue;
             }
         }
-        cout << "Сотрудник найден. Его данные:" << endl;
+        cout << "РЎРѕС‚СЂСѓРґРЅРёРє РЅР°Р№РґРµРЅ. Р•РіРѕ РґР°РЅРЅС‹Рµ:" << endl;
         cout << index + 1 << ": " << found->fio << ", " << found->post << ", " << found->admission_year << endl;
-        cout << "Выберите дальнейшее действие : " << endl;
-        cout << "1 - удалить; 2 - редактировать; 3 - вернуться в меню." << endl;
+        cout << "Р’С‹Р±РµСЂРёС‚Рµ РґР°Р»СЊРЅРµР№С€РµРµ РґРµР№СЃС‚РІРёРµ : " << endl;
+        cout << "1 - СѓРґР°Р»РёС‚СЊ; 2 - СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ; 3 - РІРµСЂРЅСѓС‚СЊСЃСЏ РІ РјРµРЅСЋ." << endl;
         getline(cin, text_command);
         while (subInserting) {
             if (to_number(text_command, command) == 0) {
                 if (command < 1 || command > 3) {
-                    cout << "Неверный номер команды. Попробуйте заново." << endl;
+                    cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРјР°РЅРґС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                     getline(cin, text_command);
                     continue;
                 }
                 break;
             }
             else {
-                cout << "Команда не распознана. Попробуйте заново." << endl;
+                cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 getline(cin, text_command);
             }
         }
@@ -315,10 +315,10 @@ void menu_find(WORKER*& workers_list) {
         switch (command) {
         case 1:
             pop_from(workers_list, index);
-            cout << "Сотрудник удалён." << endl;
+            cout << "РЎРѕС‚СЂСѓРґРЅРёРє СѓРґР°Р»С‘РЅ." << endl;
             subInserting = false;
             break;
-        case 2: //редактирование
+        case 2: //СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ
             temp_fio.erase();
             temp_post.erase();
             get_fields(temp_fio, temp_post, temp_year, gf_flag::Editing);
@@ -326,14 +326,14 @@ void menu_find(WORKER*& workers_list) {
                 found->fio = temp_fio;
                 found->post = temp_post;
                 found->admission_year = temp_year;
-                cout << "Сотрудник отредактирован." << endl << endl;
+                cout << "РЎРѕС‚СЂСѓРґРЅРёРє РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅ." << endl << endl;
             }
             else if (found->fio == temp_fio && found->post == temp_post && found->admission_year == temp_year) {
-                cout << " [X] Введённые новые данные сотрудника идентичны предыдущим. " << endl << endl;
+                cout << " [X] Р’РІРµРґС‘РЅРЅС‹Рµ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєР° РёРґРµРЅС‚РёС‡РЅС‹ РїСЂРµРґС‹РґСѓС‰РёРј. " << endl << endl;
             }
             else {
-                cout << " |\\/| Введённые новые данные сотрудника не уникальны. " << endl;
-                cout << " |/\\| Редактирование не выполнено. " << endl << endl;
+                cout << " |\\/| Р’РІРµРґС‘РЅРЅС‹Рµ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєР° РЅРµ СѓРЅРёРєР°Р»СЊРЅС‹. " << endl;
+                cout << " |/\\| Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РЅРµ РІС‹РїРѕР»РЅРµРЅРѕ. " << endl << endl;
             }
             subInserting = false;
             break;
@@ -341,7 +341,7 @@ void menu_find(WORKER*& workers_list) {
             subInserting = false;
             Inserting = false;
 
-            cout << endl << "Возвращение в меню." << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ." << endl;
             break;
         default:
             break;
@@ -364,16 +364,16 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
     size_t firstchar = 0;
     size_t secondchar = 0;
     int flag = 0;
-    cout << " • Чтение из файла. ";
+    cout << " вЂў Р§С‚РµРЅРёРµ РёР· С„Р°Р№Р»Р°. ";
     while (Inserting) {
-        cout << "Введите название файла или полный путь к файлу: " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° РёР»Рё РїРѕР»РЅС‹Р№ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ: " << endl;
         getline(cin, path);
         if (path == "/back") {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         else if (strcmp(path.c_str(), " ") == 0 || strcmp(path.c_str(), "\n") == 0 || strcmp(path.c_str(), "") == 0) {
-            cout << " [X] Введена пустая строка. Попробуйте заново." << endl;
+            cout << " [X] Р’РІРµРґРµРЅР° РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         size_t replpos=0;
@@ -381,38 +381,38 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
             path.replace(replpos, 1, "/");
             replpos++;
         }
-        if (path.rfind('/') != string::npos) { // выделение названия файла
+        if (path.rfind('/') != string::npos) { // РІС‹РґРµР»РµРЅРёРµ РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»Р°
             file = path.substr(path.rfind('/') + 1, string::npos);
         }
         else {
             file = path;
         }
-        if (file.find('.') == string::npos) { // если файл без указания расширения
+        if (file.find('.') == string::npos) { // РµСЃР»Рё С„Р°Р№Р» Р±РµР· СѓРєР°Р·Р°РЅРёСЏ СЂР°СЃС€РёСЂРµРЅРёСЏ
             file = file + ".txt";
             path = path + ".txt";
         }
         if (!file_valid(path)) {
-            cout << " |\\/| Ошибка чтения из файла. Неверно указан путь к файлу." << endl;
-            cout << " |/\\| Попробуйте заново: ";
+            cout << " |\\/| РћС€РёР±РєР° С‡С‚РµРЅРёСЏ РёР· С„Р°Р№Р»Р°. РќРµРІРµСЂРЅРѕ СѓРєР°Р·Р°РЅ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ." << endl;
+            cout << " |/\\| РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ: ";
             path.erase();
             file.erase();
             continue;
         }
         if (check_if_used(used_files, file)) {
-            cout << "Файл с таким названием уже был прочитан ранее. Подтвердить дальнейшую работу с ним?" << endl;
-            cout << "(1 - подтвердить, 2 - отменить)" << endl;
+            cout << "Р¤Р°Р№Р» СЃ С‚Р°РєРёРј РЅР°Р·РІР°РЅРёРµРј СѓР¶Рµ Р±С‹Р» РїСЂРѕС‡РёС‚Р°РЅ СЂР°РЅРµРµ. РџРѕРґС‚РІРµСЂРґРёС‚СЊ РґР°Р»СЊРЅРµР№С€СѓСЋ СЂР°Р±РѕС‚Сѓ СЃ РЅРёРј?" << endl;
+            cout << "(1 - РїРѕРґС‚РІРµСЂРґРёС‚СЊ, 2 - РѕС‚РјРµРЅРёС‚СЊ)" << endl;
             getline(cin, text_command);
             while (subInserting) {
                 if (to_number(text_command, command) == 0) {
                     if (command < 1 || command > 2) {
-                        cout << "Неверный номер команды. Попробуйте заново." << endl;
+                        cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРјР°РЅРґС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                         getline(cin, text_command);
                         continue;
                     }
                     break;
                 }
                 else {
-                    cout << "Команда не распознана. Попробуйте заново." << endl;
+                    cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                     getline(cin, text_command);
                 }
             }
@@ -423,41 +423,41 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
                 continue;
             }
         }
-        cout << "1 - записать данные в конец списка; " << endl;
-        cout << "2 - заменить список на данные из файла; " << endl;
-        cout << "3 - изменить путь к файлу; " << endl;
-        cout << "4 - отменить чтение файла. " << endl;
+        cout << "1 - Р·Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°; " << endl;
+        cout << "2 - Р·Р°РјРµРЅРёС‚СЊ СЃРїРёСЃРѕРє РЅР° РґР°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р°; " << endl;
+        cout << "3 - РёР·РјРµРЅРёС‚СЊ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ; " << endl;
+        cout << "4 - РѕС‚РјРµРЅРёС‚СЊ С‡С‚РµРЅРёРµ С„Р°Р№Р»Р°. " << endl;
         cin.ignore(cin.rdbuf()->in_avail(), '\n');
         getline(cin, text_command);
         while (subInserting) {
             if (to_number(text_command, command) == 0) {
                 if (command < 1 || command > 4) {
-                    cout << "Неверный номер команды. Попробуйте заново." << endl;
+                    cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРјР°РЅРґС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                     getline(cin, text_command);
                     continue;
                 }
                 break;
             }
             else {
-                cout << "Команда не распознана. Попробуйте заново." << endl;
+                cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 getline(cin, text_command);
             }
         }
         switch (command) {
-        case 1: //в конец
+        case 1: //РІ РєРѕРЅРµС†
             break;
-        case 2: //заменить
+        case 2: //Р·Р°РјРµРЅРёС‚СЊ
             clear_list(workers_list);
             break;
-        case 3: //изменить путь
-            cout << endl << "Измените путь к файлу: " << endl;
+        case 3: //РёР·РјРµРЅРёС‚СЊ РїСѓС‚СЊ
+            cout << endl << "РР·РјРµРЅРёС‚Рµ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ: " << endl;
             break;
         case 4:
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             Inserting = false;
             break;
         default:
-            cout << "Команда не распознана. Попробуйте заново." << endl;
+            cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             break;
         }
         if (!Inserting && command == 4) break;
@@ -466,7 +466,7 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
         int flag = 0;
         flag = fread_list(workers_list, path);
         if (flag == 0) {
-            cout << "Данные были загружены." << endl;
+            cout << "Р”Р°РЅРЅС‹Рµ Р±С‹Р»Рё Р·Р°РіСЂСѓР¶РµРЅС‹." << endl;
             if (!file_used) {
                 push_back(used_files, file);
             }
@@ -475,11 +475,11 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
             }
         }
         else if (flag == 2) {
-            cout << " |\\/| Все данные, хранимые в файле, не соответствуют формату," << endl;
-            cout << " |/\\| или идентичны существующим. Чтение не произведено. " << endl;
+            cout << " |\\/| Р’СЃРµ РґР°РЅРЅС‹Рµ, С…СЂР°РЅРёРјС‹Рµ РІ С„Р°Р№Р»Рµ, РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‚ С„РѕСЂРјР°С‚Сѓ," << endl;
+            cout << " |/\\| РёР»Рё РёРґРµРЅС‚РёС‡РЅС‹ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј. Р§С‚РµРЅРёРµ РЅРµ РїСЂРѕРёР·РІРµРґРµРЅРѕ. " << endl;
         }
         else if (flag == 1) {
-            cout << " [X] Не удалось открыть файл. " << endl;
+            cout << " [X] РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р». " << endl;
         }
         
         break;
@@ -489,23 +489,23 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
 
 void menu_fwrite(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Сохранение списка работников в файл не произведено. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРїРёСЃРєР° СЂР°Р±РѕС‚РЅРёРєРѕРІ РІ С„Р°Р№Р» РЅРµ РїСЂРѕРёР·РІРµРґРµРЅРѕ. " << endl;
         return;
     }
     bool Inserting = true;
     string path;
     bool existing = false;
     int flag = 0;
-    cout << " • Запись в файл. ";
+    cout << " вЂў Р—Р°РїРёСЃСЊ РІ С„Р°Р№Р». ";
     while (Inserting) {
-        cout << "Введите название файла или полный путь к файлу: " << endl;
+        cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° РёР»Рё РїРѕР»РЅС‹Р№ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ: " << endl;
         getline(cin, path);
         if (path == "/back") {
-            cout << endl << "Возвращение в меню. " << endl;
+            cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             break;
         }
         else if (strcmp(path.c_str(), " ") == 0 || strcmp(path.c_str(), "\n") == 0 || strcmp(path.c_str(), "") == 0) {
-            cout << " [X] Введена пустая строка. Попробуйте заново." << endl;
+            cout << " [X] Р’РІРµРґРµРЅР° РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         size_t replpos = 0;
@@ -519,14 +519,14 @@ void menu_fwrite(WORKER*& workers_list) {
         existing = file_valid(path);
         flag = fwrite_list(workers_list, path);
         while (flag) {
-            cout << " [X] Ошибка записи в файл. ";
+            cout << " [X] РћС€РёР±РєР° Р·Р°РїРёСЃРё РІ С„Р°Р№Р». ";
             if (flag == 1) {
-                cout << "Неверно указан путь к файлу." << endl;
+                cout << "РќРµРІРµСЂРЅРѕ СѓРєР°Р·Р°РЅ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ." << endl;
             }
-            cout << "Попробуйте заново: " << endl;
+            cout << "РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ: " << endl;
             getline(cin, path);
             if (path == "/back") {
-                cout << endl << "Возвращение в меню. " << endl;
+                cout << endl << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
                 break;
             }
             if (path.find('.') == string::npos) {
@@ -537,9 +537,9 @@ void menu_fwrite(WORKER*& workers_list) {
         }
         if (!flag) {
             if (!existing) {
-                cout << "Файл создан. ";
+                cout << "Р¤Р°Р№Р» СЃРѕР·РґР°РЅ. ";
             }
-            cout << "Запись произведена." << endl;
+            cout << "Р—Р°РїРёСЃСЊ РїСЂРѕРёР·РІРµРґРµРЅР°." << endl;
         }
         path.erase();
         break;
@@ -548,58 +548,58 @@ void menu_fwrite(WORKER*& workers_list) {
 
 void menu_sort(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Сортировка не произведена. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. РЎРѕСЂС‚РёСЂРѕРІРєР° РЅРµ РїСЂРѕРёР·РІРµРґРµРЅР°. " << endl;
         return;
     }
     bool subInserting = true;
     string text_command;
     int command_1 = 0;
     int command_2 = 0;
-    bool Direction = true; //true - возрастание, false - убывание
-    cout << " • Сортировка списка. " << endl;
-    cout << "1 - сортировка по фамилии и инициалам; " << endl;
-    cout << "2 - сортировка по должности; " << endl;
-    cout << "3 - сортировка по году трудоустройства; " << endl;
-    cout << "4 - отмена." << endl;
+    bool Direction = true; //true - РІРѕР·СЂР°СЃС‚Р°РЅРёРµ, false - СѓР±С‹РІР°РЅРёРµ
+    cout << " вЂў РЎРѕСЂС‚РёСЂРѕРІРєР° СЃРїРёСЃРєР°. " << endl;
+    cout << "1 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ С„Р°РјРёР»РёРё Рё РёРЅРёС†РёР°Р»Р°Рј; " << endl;
+    cout << "2 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РґРѕР»Р¶РЅРѕСЃС‚Рё; " << endl;
+    cout << "3 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РіРѕРґСѓ С‚СЂСѓРґРѕСѓСЃС‚СЂРѕР№СЃС‚РІР°; " << endl;
+    cout << "4 - РѕС‚РјРµРЅР°." << endl;
     cin.ignore(cin.rdbuf()->in_avail(), '\n');
     getline(cin, text_command);
-    while (subInserting) { // ввод первой команды
+    while (subInserting) { // РІРІРѕРґ РїРµСЂРІРѕР№ РєРѕРјР°РЅРґС‹
         if (text_command == "/back") {
-            cout << "Возвращение в меню. " << endl;
+            cout << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
             return;
         }
         else if (to_number(text_command, command_1) == 0) {
             if (command_1 < 1 || command_1 > 4) {
-                cout << "Неверный номер команды. Попробуйте заново." << endl;
+                cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРјР°РЅРґС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 getline(cin, text_command);
                 continue;
             }
             break;
         }
         else {
-            cout << "Команда не распознана. Попробуйте заново." << endl;
+            cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             getline(cin, text_command);
         }
     }
     if (command_1 == 4) {
-        cout << "Возвращение в меню. " << endl;
+        cout << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
         return;
     }
-    cout << "1 - сортировка по возрастанию(или по алфавиту); " << endl;
-    cout << "2 - сортировка по убыванию; " << endl;
+    cout << "1 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ(РёР»Рё РїРѕ Р°Р»С„Р°РІРёС‚Сѓ); " << endl;
+    cout << "2 - СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ СѓР±С‹РІР°РЅРёСЋ; " << endl;
     cin.ignore(cin.rdbuf()->in_avail(), '\n');
     getline(cin, text_command);
-    while (subInserting) { // ввод второй команды
+    while (subInserting) { // РІРІРѕРґ РІС‚РѕСЂРѕР№ РєРѕРјР°РЅРґС‹
         if (to_number(text_command, command_2) == 0) {
             if (command_2 < 1 || command_2 > 2) {
-                cout << "Неверный номер команды. Попробуйте заново." << endl;
+                cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРјР°РЅРґС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
                 getline(cin, text_command);
                 continue;
             }
             break;
         }
         else {
-            cout << "Команда не распознана. Попробуйте заново." << endl;
+            cout << "РљРѕРјР°РЅРґР° РЅРµ СЂР°СЃРїРѕР·РЅР°РЅР°. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             getline(cin, text_command);
         }
     }
@@ -617,16 +617,16 @@ void menu_sort(WORKER*& workers_list) {
         sort_list_byyear(workers_list, Direction);
         break;
     case 4:
-        cout << "Возвращение в меню. " << endl;
+        cout << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
         break;
     }
     if (command_1 == 4) return;
 
     if (check_list_accuracy(workers_list)) {
-        cout << "Список отсортирован. " << endl;
+        cout << "РЎРїРёСЃРѕРє РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅ. " << endl;
     }
     else {
-        cout << " [X] Нарашена структура списка." << endl;
+        cout << " [X] РќР°СЂР°С€РµРЅР° СЃС‚СЂСѓРєС‚СѓСЂР° СЃРїРёСЃРєР°." << endl;
     }
     if (_AUTO_OUTPUT) {
         show_list(workers_list);
@@ -635,27 +635,27 @@ void menu_sort(WORKER*& workers_list) {
 
 void menu_task(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
-        cout << "Список пуст. Выполнение задачи невозможно. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. Р’С‹РїРѕР»РЅРµРЅРёРµ Р·Р°РґР°С‡Рё РЅРµРІРѕР·РјРѕР¶РЅРѕ. " << endl;
         return;
     }
     WORKER* found_workers = nullptr;
     string text_command;
     int year = 0;
     bool subInserting = true;
-    cout << " • Поиск заботника с бОльшим стажем работы. " << endl;
-    cout << " • Введите сравниваемый стаж работы: " << endl;
+    cout << " вЂў РџРѕРёСЃРє Р·Р°Р±РѕС‚РЅРёРєР° СЃ Р±РћР»СЊС€РёРј СЃС‚Р°Р¶РµРј СЂР°Р±РѕС‚С‹. " << endl;
+    cout << " вЂў Р’РІРµРґРёС‚Рµ СЃСЂР°РІРЅРёРІР°РµРјС‹Р№ СЃС‚Р°Р¶ СЂР°Р±РѕС‚С‹: " << endl;
     while (subInserting) {
         getline(cin, text_command);
         if (to_number(text_command, year)) {
             if (text_command == "/back") {
-                cout << "Возвращение в меню. " << endl;
+                cout << "Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. " << endl;
                 return;
             }
-            cout << "Год должен быть числом. Попробуйте заново." << endl;
+            cout << "Р“РѕРґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ С‡РёСЃР»РѕРј. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         else if (year > 100) {
-            cout << "Год должен быть настоящим. Попробуйте заново." << endl;
+            cout << "Р“РѕРґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅР°СЃС‚РѕСЏС‰РёРј. РџРѕРїСЂРѕР±СѓР№С‚Рµ Р·Р°РЅРѕРІРѕ." << endl;
             continue;
         }
         else {
@@ -664,65 +664,65 @@ void menu_task(WORKER*& workers_list) {
     }
     found_workers = dotask_list(workers_list, year);
     if (found_workers != nullptr) {
-        cout << "Список найденых рабочих: " << endl;
+        cout << "РЎРїРёСЃРѕРє РЅР°Р№РґРµРЅС‹С… СЂР°Р±РѕС‡РёС…: " << endl;
         show_list(found_workers);
         clear_list(found_workers);
     }
     else {
-        cout << " [X] Ни один рабочий не удовлетворяет условию. " << endl;
+        cout << " [X] РќРё РѕРґРёРЅ СЂР°Р±РѕС‡РёР№ РЅРµ СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ СѓСЃР»РѕРІРёСЋ. " << endl;
     }
 }
 
 void menu_show(WORKER* workers_list) {
     if (!is_list_empty(workers_list)) {
-        cout << " • Список: " << endl;
+        cout << " вЂў РЎРїРёСЃРѕРє: " << endl;
         show_list(workers_list);
     }
     else {
-        cout << "Список пуст. " << endl;
+        cout << "РЎРїРёСЃРѕРє РїСѓСЃС‚. " << endl;
     }
 }
 
 void menu_help() {
-    cout << endl << setw(44) << right << "**** Помощь по командам ****" << endl << endl;
-    cout << "/add - добавить сотрудника в позицию. Следующая команда:" << endl;
-    cout << setw(5) << ' ' << setw(1) << "<номер позиции> - добавить на позицию;" << endl;
-    cout << setw(5) << ' ' << setw(1) << "позиция -1 добавляет в конец." << endl;
+    cout << endl << setw(44) << right << "**** РџРѕРјРѕС‰СЊ РїРѕ РєРѕРјР°РЅРґР°Рј ****" << endl << endl;
+    cout << "/add - РґРѕР±Р°РІРёС‚СЊ СЃРѕС‚СЂСѓРґРЅРёРєР° РІ РїРѕР·РёС†РёСЋ. РЎР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР°:" << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РЅРѕРјРµСЂ РїРѕР·РёС†РёРё> - РґРѕР±Р°РІРёС‚СЊ РЅР° РїРѕР·РёС†РёСЋ;" << endl;
+    cout << setw(5) << ' ' << setw(1) << "РїРѕР·РёС†РёСЏ -1 РґРѕР±Р°РІР»СЏРµС‚ РІ РєРѕРЅРµС†." << endl;
     cout << endl;
-    cout << "/delete - удалить сотрудника. Следующая команда:" << endl;
-    cout << setw(5) << ' ' << setw(1) << "<номер позиции> - удалить из этой позиции;" << endl;
-    cout << setw(5) << ' ' << setw(1) << "позиция -1 удаляет из конца." << endl;
+    cout << "/delete - СѓРґР°Р»РёС‚СЊ СЃРѕС‚СЂСѓРґРЅРёРєР°. РЎР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР°:" << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РЅРѕРјРµСЂ РїРѕР·РёС†РёРё> - СѓРґР°Р»РёС‚СЊ РёР· СЌС‚РѕР№ РїРѕР·РёС†РёРё;" << endl;
+    cout << setw(5) << ' ' << setw(1) << "РїРѕР·РёС†РёСЏ -1 СѓРґР°Р»СЏРµС‚ РёР· РєРѕРЅС†Р°." << endl;
     cout << endl;
-    cout << "/edit - редактировать сотрудника. Следующая команда: " << endl;
-    cout << setw(5) << ' ' << setw(1) << "<номер позиции>." << endl;
+    cout << "/edit - СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃРѕС‚СЂСѓРґРЅРёРєР°. РЎР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР°: " << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РЅРѕРјРµСЂ РїРѕР·РёС†РёРё>." << endl;
     cout << endl;
-    cout << "/fread - считать данные сотрудников из файла. Следующая команда: " << endl;
-    cout << setw(5) << ' ' << setw(1) << "<путь к файлу>." << endl;
+    cout << "/fread - СЃС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РёР· С„Р°Р№Р»Р°. РЎР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР°: " << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ>." << endl;
     cout << endl;
-    cout << "/fwrite - записать данные сотрудников в файл. Следующая команда: " << endl;
-    cout << setw(5) << ' ' << setw(1) << "<путь к файлу>." << endl;
+    cout << "/fwrite - Р·Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РІ С„Р°Р№Р». РЎР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР°: " << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ>." << endl;
     cout << endl;
-    cout << "/sort - сортировка списка сотрудников. Следующие команды: " << endl;
-    cout << setw(5) << ' ' << setw(1) << "<поле сортировки>." << endl;
-    cout << setw(5) << ' ' << setw(1) << "<направление сортировки>." << endl;
+    cout << "/sort - СЃРѕСЂС‚РёСЂРѕРІРєР° СЃРїРёСЃРєР° СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ. РЎР»РµРґСѓСЋС‰РёРµ РєРѕРјР°РЅРґС‹: " << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РїРѕР»Рµ СЃРѕСЂС‚РёСЂРѕРІРєРё>." << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РЅР°РїСЂР°РІР»РµРЅРёРµ СЃРѕСЂС‚РёСЂРѕРІРєРё>." << endl;
     cout << endl;
-    cout << "/find - поиск сотрудника. Следующие команды: " << endl;
-    cout << setw(5) << ' ' << setw(1) << "<данные сотрудника>." << endl;
+    cout << "/find - РїРѕРёСЃРє СЃРѕС‚СЂСѓРґРЅРёРєР°. РЎР»РµРґСѓСЋС‰РёРµ РєРѕРјР°РЅРґС‹: " << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РґР°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєР°>." << endl;
     cout << endl;
-    cout << "/task - поиск сотрудников с бОльшим годом трудоустройства." << endl;
-    cout << setw(5) << ' ' << setw(1) << "<год трудоустройства>." << endl;
+    cout << "/task - РїРѕРёСЃРє СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ СЃ Р±РћР»СЊС€РёРј РіРѕРґРѕРј С‚СЂСѓРґРѕСѓСЃС‚СЂРѕР№СЃС‚РІР°." << endl;
+    cout << setw(5) << ' ' << setw(1) << "<РіРѕРґ С‚СЂСѓРґРѕСѓСЃС‚СЂРѕР№СЃС‚РІР°>." << endl;
     cout << endl;
-    cout << "/show - вывод списка сотрудников в консоль." << endl;
+    cout << "/show - РІС‹РІРѕРґ СЃРїРёСЃРєР° СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РІ РєРѕРЅСЃРѕР»СЊ." << endl;
     cout << endl;
-    cout << "/back - возвращение в меню. Можно использовать только" << endl;
-    cout << setw(5) << ' ' << setw(1) << "сразу после вызова других команд." << endl;
+    cout << "/back - РІРѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ. РњРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚РѕР»СЊРєРѕ" << endl;
+    cout << setw(5) << ' ' << setw(1) << "СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ РІС‹Р·РѕРІР° РґСЂСѓРіРёС… РєРѕРјР°РЅРґ." << endl;
     cout << endl;
-    cout << "/help - помощь." << endl;
+    cout << "/help - РїРѕРјРѕС‰СЊ." << endl;
     cout << endl;
-    cout << "/exit - завершение работы." << endl << endl;
-    cout << "Формат ввода ФИО («_» это пробел):" << endl;
-    cout << setw(5) << ' ' << setw(1) << "Фамилия_И.О." << endl;
-    cout << setw(5) << ' ' << setw(1) << "Фамилия_И._О." << endl;
-    cout << setw(5) << ' ' << setw(1) << "Фамилия_И." << endl;
-    cout << "Год должен быть в диапазоне [1900; нынешний]." << endl;
+    cout << "/exit - Р·Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹." << endl << endl;
+    cout << "Р¤РѕСЂРјР°С‚ РІРІРѕРґР° Р¤РРћ (В«_В» СЌС‚Рѕ РїСЂРѕР±РµР»):" << endl;
+    cout << setw(5) << ' ' << setw(1) << "Р¤Р°РјРёР»РёСЏ_Р.Рћ." << endl;
+    cout << setw(5) << ' ' << setw(1) << "Р¤Р°РјРёР»РёСЏ_Р._Рћ." << endl;
+    cout << setw(5) << ' ' << setw(1) << "Р¤Р°РјРёР»РёСЏ_Р." << endl;
+    cout << "Р“РѕРґ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ РґРёР°РїР°Р·РѕРЅРµ [1900; РЅС‹РЅРµС€РЅРёР№]." << endl;
 }
