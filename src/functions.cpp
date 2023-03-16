@@ -1,6 +1,6 @@
+#include <main.h>
 #include <functions.h>
-#include <string>
-#include <string.h>
+#include <struct.h>
 using namespace std;
 
 string ltrim(const string str) {
@@ -362,6 +362,12 @@ cmd command(const string text_cmd) {
     else if (strcmp(tcmd.c_str(), "/fwrite") == 0) {
         return cmd::Fwrite;
     }
+    else if (strcmp(tcmd.c_str(), "/dbread") == 0) {
+        return cmd::DBread;
+    }
+    else if (strcmp(tcmd.c_str(), "/dbwrite") == 0) {
+        return cmd::DBwrite;
+    }
     else if (strcmp(tcmd.c_str(), "/help") == 0) {
         return cmd::Help;
     }
@@ -538,4 +544,82 @@ char uppercase_char(const char ch) {
         retch = toupper(ch);
     }
     return retch;
+}
+
+int callback(void* list, int argc, char** argv, char** azColName) {
+    WORKER* head = (WORKER*)list;
+    int adm_year = 0;
+    string fio;
+    string post;
+    fio = utf8_to_cp1251(argv[0]);
+    post = utf8_to_cp1251(argv[1]);
+    adm_year = stoi(argv[2]);
+    push_back(head, fio, post, adm_year);
+    return 0;
+}
+
+string utf8_to_cp1251(const string str) {
+    std::string res;
+    WCHAR *ures = nullptr;
+    char *cres = nullptr;
+ 
+    int result_u = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, 0, 0);
+    if (result_u != 0)
+    {
+        ures = new WCHAR[result_u];
+        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, ures, result_u))
+        {
+            int result_c = WideCharToMultiByte(1251, 0, ures, -1, 0, 0, 0, 0);
+            if (result_c != 0)
+            {
+                cres = new char[result_c];
+                if (WideCharToMultiByte(1251, 0, ures, -1, cres, result_c, 0, 0))
+                {
+                    res = cres;
+                }
+            }
+        }
+    }
+ 
+    delete[] ures;
+    delete[] cres;
+ 
+    return res;
+}
+
+std::string cp1251_to_utf8(const string str) {
+    std::string res;
+    WCHAR *ures = nullptr;
+    char *cres = nullptr;
+ 
+    int result_u = MultiByteToWideChar(1251, 0, str.c_str(), -1, 0, 0);
+    if (result_u != 0)
+    {
+        ures = new WCHAR[result_u];
+        if (MultiByteToWideChar(1251, 0, str.c_str(), -1, ures, result_u))
+        {
+            int result_c = WideCharToMultiByte(CP_UTF8, 0, ures, -1, 0, 0, 0, 0);
+            if (result_c != 0)
+            {
+                cres = new char[result_c];
+                if (WideCharToMultiByte(CP_UTF8, 0, ures, -1, cres, result_c, 0, 0))
+                {
+                    res = cres;
+                }
+            }
+        }
+    }
+ 
+    delete[] ures;
+    delete[] cres;
+ 
+    return res;
+}
+
+bool check_dbname(const string dbname) {
+    regex word_regex(R"([A-Za-z\_\-0-9]+)");
+    if(regex_match(dbname, word_regex)) {
+        return true;
+    }
+    return false;
 }

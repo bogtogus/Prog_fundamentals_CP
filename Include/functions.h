@@ -3,7 +3,7 @@
 
 using namespace std;
 
-enum class cmd { NoCmd, Add, Delete, Edit, Find, Fread, Fwrite, Sort, Task, Help, Show, Back, Exit };
+enum class cmd { NoCmd, Add, Delete, Edit, Find, Fread, Fwrite, DBread, DBwrite, Sort, Task, Help, Show, Back, Exit };
 enum class gf_flag {Nothing, Editing, SearchAdd};
 
 string ltrim(const string);
@@ -26,3 +26,7 @@ bool file_valid(const string);
 void uppercase_first(string&);
 char uppercase_char(const char);
 void downcase_word(string&);
+int callback(void* list, int argc, char** argv, char** azColName);
+string utf8_to_cp1251(const string str);
+string cp1251_to_utf8(const string str);
+bool check_dbname(const string dbname);

@@ -23,6 +23,7 @@ int find_in_list(WORKER* const, string, string, const int, WORKER*&, int&);
 bool is_exist(WORKER* const, string, string, const int);
 int fread_list(WORKER*&, string);
 int fwrite_list(WORKER* const, string);
+int dbwrite_list(WORKER* const head, sqlite3*& dbase, bool opened);
 void sort_list_byfio(WORKER*&, bool=true);
 void sort_list_bypost(WORKER*&, bool = true);
 void sort_list_byyear(WORKER*&, bool = true);

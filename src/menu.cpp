@@ -10,7 +10,10 @@ void menu(WORKER*& workers_list) {
     int num_command = 0;
     int index = 0;
     int flag = 0;
-    cout << "Меню приложения для работы со списком сотрудников.\nДля списка команд введите /help." << endl << endl;
+    cout << left << "|=" << setfill('-') << setw(53) << right << "=|" << setfill(' ') << endl;
+    cout << left << "|  Меню приложения для работы со списком сотрудников. |" << endl;
+    cout << left << "|  Для списка команд введите /help." << setw(20) << right << "|" << setw(1) << endl;
+    cout << left << "|=" << setfill('-') << setw(53) << right << "=|" << setfill(' ') << endl << endl;
     while (MenuIsOpen) {
         cout << "Введите команду:" << endl;
         getline(cin, text_command);
@@ -33,6 +36,12 @@ void menu(WORKER*& workers_list) {
             break;
         case cmd::Fwrite:
             menu_fwrite(workers_list);
+            break;
+        case cmd::DBread:
+            menu_dbread(workers_list);
+            break;
+        case cmd::DBwrite:
+            menu_dbwrite(workers_list);
             break;
         case cmd::Sort:
             menu_sort(workers_list);
@@ -487,7 +496,7 @@ void menu_fread(WORKER*& workers_list, string*& used_files) {
     path.erase();
 }
 
-void menu_fwrite(WORKER*& workers_list) {
+void menu_fwrite(WORKER* const workers_list) {
     if (is_list_empty(workers_list)) {
         cout << "Список пуст. Сохранение списка работников в файл не произведено. " << endl;
         return;
@@ -545,6 +554,180 @@ void menu_fwrite(WORKER*& workers_list) {
         break;
     }
 }
+
+void menu_dbread(WORKER*& workers_list) {
+    sqlite3* dbase =nullptr;
+    char* locpath = new char[MAX_PATH]{};
+    GetModuleFileNameA(NULL, locpath, MAX_PATH);
+    char path[512]{};
+    char* i = strstr(locpath, "main.exe");
+    int k = 0;
+    int flag = 0;
+    if (i != nullptr) {
+        while (k < 8) {
+            *(i + k) = '\0';
+            k++;
+        }
+        strcpy_s(path, locpath);
+        strcat_s(path, "dbase.db");
+        //cout << path << endl;
+        flag = sqlite3_open_v2((const char*)path, &dbase, SQLITE_OPEN_READONLY, NULL);
+        if (flag != SQLITE_OK) {
+            cout << "[!] Произошла ошибка при открытии Базы данных (dbase.db): " << endl;
+            sqlite3_close_v2(dbase);
+            return;
+        }
+    }
+    bool Inserting = true;
+    string text_command;
+    int command=0;
+    
+    cout << " • Чтение из Базы данных. " << endl;
+    cout << "1 - записать данные в конец списка; " << endl;
+    cout << "2 - заменить список на данные из Базы данных; " << endl;
+    cout << "3 - отменить чтение данных. " << endl;
+    cin.ignore(cin.rdbuf()->in_avail(), '\n');
+    getline(cin, text_command);
+    while (Inserting) {
+        if (to_number(text_command, command) == 0) {
+            if (command < 1 || command > 3) {
+                cout << "Неверный номер команды. Попробуйте заново." << endl;
+                getline(cin, text_command);
+                continue;
+            }
+            break;
+        }
+        else {
+            cout << "Команда не распознана. Попробуйте заново." << endl;
+            getline(cin, text_command);
+        }
+    }
+    switch (command) {
+    case 1: //в конец
+        break;
+    case 2: //заменить
+        clear_list(workers_list);
+        break;
+    case 3:
+        cout << endl << "Возвращение в меню. " << endl;
+        break;
+    }
+    if (workers_list == nullptr) {
+        push_back(workers_list, "-", "-", 2000);
+    }
+    char* error = nullptr;
+    flag = sqlite3_exec(dbase, "SELECT fio, post, [admission year] FROM workers", callback, workers_list, &error);
+    //flag = fread_list(workers_list, path);
+    if (flag == SQLITE_OK) {
+        pop_from(workers_list, 0);
+        cout << "Данные были загружены." << endl;
+        if (_AUTO_OUTPUT) {
+            show_list(workers_list);
+        }
+    }
+    else {
+        cout << "[X] Произошла ошибка чтения данных: ";
+        cout << error << endl;
+    }
+    sqlite3_close_v2(dbase);
+}
+
+void menu_dbwrite(WORKER* const workers_list) {
+    sqlite3* dbase =nullptr;
+    char* error = nullptr;
+    char* locpath = new char[MAX_PATH]{};
+    GetModuleFileNameA(NULL, locpath, MAX_PATH);
+    char path[512]{};
+    char* i = strstr(locpath, "main.exe");
+    int k = 0;
+    int flag = 0;
+    if (i != nullptr) {
+        while (k < 8) {
+            *(i + k) = '\0';
+            k++;
+        }
+        strcpy_s(path, locpath);
+    }
+    bool Inserting = true;
+    string text_command;
+    int command=0;
+    string dbname;
+    
+    cout << " • Запись в Базу данных. " << endl;
+    cout << "1 - записать данные в исходную БД (dbase.db) с предварительной её очисткой; " << endl;
+    cout << "2 - записать данные в новую БД; " << endl;
+    cout << "3 - отменить запись данных. " << endl;
+    cin.ignore(cin.rdbuf()->in_avail(), '\n');
+    getline(cin, text_command);
+    while (Inserting) {
+        if (to_number(text_command, command) == 0) {
+            if (command < 1 || command > 3) {
+                cout << "Неверный номер команды. Попробуйте заново." << endl;
+                getline(cin, text_command);
+                continue;
+            }
+            break;
+        }
+        else {
+            cout << "Команда не распознана. Попробуйте заново." << endl;
+            getline(cin, text_command);
+        }
+    }
+    switch (command) {
+    case 1: //очистить ихсодную БД и записать
+        strcat_s(path, "dbase.db");
+        flag = sqlite3_open_v2((const char*)path, &dbase, SQLITE_OPEN_READWRITE, NULL);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Возникла ошибка при окрытии БД \"dbase.db\". " << endl;
+            break;
+        }
+        flag = sqlite3_exec(dbase, "DELETE FROM workers", callback, workers_list, &error);
+        flag = sqlite3_exec(dbase, "VACUUM", callback, workers_list, &error);
+        flag = dbwrite_list(workers_list, dbase, true);
+        if (flag == 0) {
+            cout << "Данные были загружены в БД." << endl;
+        }
+        else {
+            cout << "Ошибка загрузки в БД." << endl;
+        }
+        break;
+    case 2: //записать в новую БД
+        cout << "Введите имя для новой Базы Данных." << endl;
+        cout << "Название должно состоять только из латинских букв(с любым регистром)," << endl;
+        cout << "цифр и символов \"_\" и \"-\"" << endl;
+        getline(cin, dbname);
+        if (!check_dbname(dbname)) {
+            cout << "[X] Ошибка ввода. Попробуйте заново:" << endl;
+            cout << cout.fail() << endl;
+            getline(cin, dbname);
+        }
+        strcat_s(path, dbname.c_str());
+        strcat_s(path, ".db");
+        flag = sqlite3_open_v2((const char*)path, &dbase, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка создания БД. " << endl;
+            break;
+        }
+        flag = sqlite3_exec(dbase, "CREATE TABLE workers(fio, post, [admission year])", callback, workers_list, &error);
+        if (flag != SQLITE_OK) {
+            cout << "[X] Ошибка создания таблицы \'workers\'. " << error << endl;
+            break;
+        }
+        flag = dbwrite_list(workers_list, dbase, true);
+        if (flag == 0) {
+            cout << "Данные были загружены в БД." << endl;
+        }
+        else {
+            cout << "Ошибка загрузки в БД." << endl;
+        }
+        break;
+    case 3:
+        cout << endl << "Возвращение в меню. " << endl;
+        break;
+    }
+    sqlite3_close_v2(dbase);
+}
+
 
 void menu_sort(WORKER*& workers_list) {
     if (is_list_empty(workers_list)) {
@@ -688,37 +871,28 @@ void menu_help() {
     cout << "/add - добавить сотрудника в позицию. Следующая команда:" << endl;
     cout << setw(5) << ' ' << setw(1) << "<номер позиции> - добавить на позицию;" << endl;
     cout << setw(5) << ' ' << setw(1) << "позиция -1 добавляет в конец." << endl;
-    cout << endl;
     cout << "/delete - удалить сотрудника. Следующая команда:" << endl;
     cout << setw(5) << ' ' << setw(1) << "<номер позиции> - удалить из этой позиции;" << endl;
     cout << setw(5) << ' ' << setw(1) << "позиция -1 удаляет из конца." << endl;
-    cout << endl;
     cout << "/edit - редактировать сотрудника. Следующая команда: " << endl;
     cout << setw(5) << ' ' << setw(1) << "<номер позиции>." << endl;
-    cout << endl;
     cout << "/fread - считать данные сотрудников из файла. Следующая команда: " << endl;
     cout << setw(5) << ' ' << setw(1) << "<путь к файлу>." << endl;
-    cout << endl;
     cout << "/fwrite - записать данные сотрудников в файл. Следующая команда: " << endl;
     cout << setw(5) << ' ' << setw(1) << "<путь к файлу>." << endl;
-    cout << endl;
+    cout << "/dbread - считать данные сотрудников из базы данных." << endl;
+    cout << "/dbwrite - записать сотрудников в базу данных." << endl;
     cout << "/sort - сортировка списка сотрудников. Следующие команды: " << endl;
     cout << setw(5) << ' ' << setw(1) << "<поле сортировки>." << endl;
     cout << setw(5) << ' ' << setw(1) << "<направление сортировки>." << endl;
-    cout << endl;
     cout << "/find - поиск сотрудника. Следующие команды: " << endl;
     cout << setw(5) << ' ' << setw(1) << "<данные сотрудника>." << endl;
-    cout << endl;
     cout << "/task - поиск сотрудников с бОльшим годом трудоустройства." << endl;
     cout << setw(5) << ' ' << setw(1) << "<год трудоустройства>." << endl;
-    cout << endl;
     cout << "/show - вывод списка сотрудников в консоль." << endl;
-    cout << endl;
     cout << "/back - возвращение в меню. Можно использовать только" << endl;
     cout << setw(5) << ' ' << setw(1) << "сразу после вызова других команд." << endl;
-    cout << endl;
     cout << "/help - помощь." << endl;
-    cout << endl;
     cout << "/exit - завершение работы." << endl << endl;
     cout << "Формат ввода ФИО («_» это пробел):" << endl;
     cout << setw(5) << ' ' << setw(1) << "Фамилия_И.О." << endl;

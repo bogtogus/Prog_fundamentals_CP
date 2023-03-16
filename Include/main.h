@@ -6,3 +6,6 @@
 #include <string.h>
 #include <fstream>
 #include <time.h>
+#include <sqlite3.h>
+#include <regex>
+

@@ -267,6 +267,41 @@ int fwrite_list(WORKER* const head, string path) {
     return 0;
 }
 
+int dbwrite_list(WORKER* const head, sqlite3*& dbase, bool opened) {
+    int flag = 0;
+    char* error = nullptr;  
+    WORKER* current = head;
+    string fio;
+    string post;
+    string year;
+    string sqlstatement;
+    if (!opened) {
+        return 1;
+    }
+    while (current != nullptr) {
+        fio = current->fio;
+        post = current->post;
+        try {
+            year = to_string(current->admission_year);
+        } catch (invalid_argument) {
+            current = current->next_elem;
+            continue;
+        }
+        sqlstatement = (string)"INSERT INTO workers " + "(fio, post, [admission year])" + 
+            " VALUES (\'" + cp1251_to_utf8(fio) + "\', \'" + cp1251_to_utf8(post) + "\', " + cp1251_to_utf8(year) + ")";
+        //cout << sqlstatement << endl;
+        flag = sqlite3_exec(dbase, sqlstatement.c_str(), 
+                            nullptr, nullptr, &error);
+        if (flag != SQLITE_OK) {
+            // !
+        }
+        current = current->next_elem;
+        
+    }
+    sqlite3_close_v2(dbase);
+    return 0;
+}
+
 int find_in_list(WORKER* const head, string name, WORKER*& found, int& index) {
     name = ltrim(rtrim(name));
     WORKER* current = head;
